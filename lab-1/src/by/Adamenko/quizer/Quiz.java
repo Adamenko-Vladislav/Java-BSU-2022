@@ -1,10 +1,8 @@
 package by.Adamenko.quizer;
 
-import by.Adamenko.quizer.task_generators.EquationTaskGenerator;
-import by.Adamenko.quizer.task_generators.ExpressionTaskGenerator;
-import by.Adamenko.quizer.task_generators.GroupTaskGenerator;
-import by.Adamenko.quizer.task_generators.TaskGenerator;
+import by.Adamenko.quizer.task_generators.*;
 import by.Adamenko.quizer.tasks.Task;
+import by.Adamenko.quizer.tasks.TextTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,11 +32,21 @@ class Quiz {
         tests.put("Group1", new Quiz(new GroupTaskGenerator(new ExpressionTaskGenerator(-10, 10, true, true, true, true),
                 new ExpressionTaskGenerator(0, 10, true, false, false, false)), 5));
 
-        ArrayList<TaskGenerator> list = new ArrayList<TaskGenerator>();
+        ArrayList<TaskGenerator> list = new ArrayList<>();
         list.add(new EquationTaskGenerator(0, 10, true, false, false, false));
         list.add(new EquationTaskGenerator(-10, 10, true, false, false, true));
 
         tests.put("Group2", new Quiz(new GroupTaskGenerator(list), 10));
+
+        tests.put("Pol1", new Quiz(new PoolTaskGenerator(true, new TextTask("2 + 2 = ?", "4"),
+                new TextTask("5 + 5 = ?", "10")), 5));
+
+        ArrayList<Task> tasks = new ArrayList<>();
+        tasks.add(new TextTask("x + 10 = 10", "0"));
+        tasks.add(new TextTask("x * 50 = 100", "2"));
+
+        tests.put("Pol2", new Quiz(new PoolTaskGenerator(true, tasks), 5));
+        tests.put("Pol3", new Quiz(new PoolTaskGenerator(false, tasks), 2));
         return tests;
     }
     Task nextTask() {

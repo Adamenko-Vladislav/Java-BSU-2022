@@ -2,40 +2,47 @@ package by.Adamenko.quizer.task_generators;
 
 import by.Adamenko.quizer.tasks.Task;
 
-import java.util.Collection;
+import java.util.*;
 
-class PoolTaskGenerator implements TaskGenerator {
-    /**
-     * Конструктор с переменным числом аргументов
-     *
-     * @param allowDuplicate разрешить повторения
-     * @param tasks          задания, которые в конструктор передаются через запятую
-     */
-    PoolTaskGenerator(
+public class PoolTaskGenerator implements TaskGenerator {
+
+    private final boolean duplicate;
+    private ArrayList<Task> allTasks = new ArrayList<>();
+    private HashSet<Task> set = new HashSet<>();
+    private final Random rnd = new Random();
+
+    public PoolTaskGenerator(
             boolean allowDuplicate,
             Task... tasks
     ) {
-        // ...
+        duplicate = allowDuplicate;
+        allTasks.addAll(List.of(tasks));
+        if (duplicate) {
+            Collections.shuffle(allTasks);
+        }
     }
 
-    /**
-     * Конструктор, который принимает коллекцию заданий
-     *
-     * @param allowDuplicate разрешить повторения
-     * @param tasks          задания, которые передаются в конструктор в Collection (например, {@link LinkedList})
-     */
-    PoolTaskGenerator(
+    public PoolTaskGenerator(
             boolean allowDuplicate,
             Collection<Task> tasks
     ) {
-        // ...
+       duplicate = allowDuplicate;
+       allTasks.addAll(tasks);
+       if (duplicate) {
+           Collections.shuffle(allTasks);
+       }
     }
 
-    /**
-     * @return случайная задача из списка
-     */
     public Task generate() {
-        // ...
-        return null;
+        if (duplicate) {
+            int pos = rnd.nextInt(0, allTasks.size());
+            return allTasks.get(pos);
+        }
+        if (allTasks.isEmpty()) {
+            // TODO throw
+        }
+        Task x = allTasks.get(allTasks.size() - 1);
+        allTasks.remove(x);
+        return x;
     }
 }

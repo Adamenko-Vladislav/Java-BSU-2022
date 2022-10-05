@@ -2,31 +2,36 @@ package by.Adamenko.quizer.tasks;
 
 import by.Adamenko.quizer.Result;
 
-/**
- * Задание с заранее заготовленным текстом.
- * Можно использовать {@link PoolTaskGenerator}, чтобы задавать задания такого типа.
- */
-class TextTask implements Task {
-    /**
-     * @param text   текст задания
-     * @param answer ответ на задание
-     */
-    TextTask(
+public class TextTask implements Task {
+
+    private final String Expression;
+    private final String Answer;
+    public TextTask(
             String text,
             String answer
     ) {
-        // ...
+        Expression = text;
+        Answer = answer;
     }
 
     @Override
     public String getText() {
-        return null;
+        return Expression;
     }
 
     @Override
     public Result validate(String answer) {
-        return null;
+        for (int i = 0; i < answer.length(); ++i) {
+            if (!Character.isDigit(answer.charAt(i))) {
+                if (i == 0 && answer.charAt(i) == '-') {
+                    continue;
+                }
+                return Result.INCORRECT_INPUT;
+            }
+        }
+        if (answer.equals(Answer)) {
+            return Result.OK;
+        }
+        return Result.WRONG;
     }
-
-    // ...
 }
