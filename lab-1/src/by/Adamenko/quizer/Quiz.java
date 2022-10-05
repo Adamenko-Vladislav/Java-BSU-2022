@@ -2,9 +2,11 @@ package by.Adamenko.quizer;
 
 import by.Adamenko.quizer.task_generators.EquationTaskGenerator;
 import by.Adamenko.quizer.task_generators.ExpressionTaskGenerator;
+import by.Adamenko.quizer.task_generators.GroupTaskGenerator;
 import by.Adamenko.quizer.task_generators.TaskGenerator;
 import by.Adamenko.quizer.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +31,14 @@ class Quiz {
         tests.put("EqTaskAll", new Quiz(new EquationTaskGenerator(-10, 10, true, true, true, true), 5));
         tests.put("ExprTaskOnlyPlus", new Quiz(new ExpressionTaskGenerator(0, 10, true, false, false, false), 5));
         tests.put("ExprTaskAll", new Quiz(new ExpressionTaskGenerator(-10, 10, true, true, true, true), 5));
+        tests.put("Group1", new Quiz(new GroupTaskGenerator(new ExpressionTaskGenerator(-10, 10, true, true, true, true),
+                new ExpressionTaskGenerator(0, 10, true, false, false, false)), 5));
+
+        ArrayList<TaskGenerator> list = new ArrayList<TaskGenerator>();
+        list.add(new EquationTaskGenerator(0, 10, true, false, false, false));
+        list.add(new EquationTaskGenerator(-10, 10, true, false, false, true));
+
+        tests.put("Group2", new Quiz(new GroupTaskGenerator(list), 10));
         return tests;
     }
     Task nextTask() {

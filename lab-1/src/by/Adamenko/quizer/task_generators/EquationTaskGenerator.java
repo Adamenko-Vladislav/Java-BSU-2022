@@ -10,6 +10,8 @@ public class EquationTaskGenerator implements TaskGenerator {
     private final int min;
     private final int max;
     private ArrayList<Operator> operators;
+    private final Random rnd = new Random();
+
     public EquationTaskGenerator(
             int minNumber,
             int maxNumber,
@@ -28,13 +30,8 @@ public class EquationTaskGenerator implements TaskGenerator {
     }
 
     public EquationTask generate() {
-        Random rnd = new Random();
-        int sz = operators.size();
-
         // trow
-
-        int pos = rnd.nextInt(0, sz);
-
+        int pos = rnd.nextInt(0, operators.size());
         return new EquationTask(rnd.nextInt(min, max + 1),
                                 rnd.nextInt(min, max + 1),
                                 operators.get(pos));

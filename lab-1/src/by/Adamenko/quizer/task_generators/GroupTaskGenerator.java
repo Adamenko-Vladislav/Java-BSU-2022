@@ -2,34 +2,38 @@ package by.Adamenko.quizer.task_generators;
 
 import by.Adamenko.quizer.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Random;
 
-class GroupTaskGenerator implements TaskGenerator {
-    /**
-     * Конструктор с переменным числом аргументов
-     *
-     * @param generators генераторы, которые в конструктор передаются через запятую
-     */
-    GroupTaskGenerator(TaskGenerator... generators) {
-        // ...
+public class GroupTaskGenerator implements TaskGenerator {
+    private ArrayList<TaskGenerator> allGenerators = new ArrayList<TaskGenerator>();
+    private final Random rnd = new Random();
+
+    public GroupTaskGenerator(TaskGenerator... generators) {
+        for (int i = 0; i < generators.length; ++i) {
+            Task x = generators[i].generate();
+            // TODO catch
+            allGenerators.add(generators[i]);
+        }
     }
 
-    /**
-     * Конструктор, который принимает коллекцию генераторов
-     *
-     * @param generators генераторы, которые передаются в конструктор в Collection (например, {@link ArrayList})
-     */
-    GroupTaskGenerator(Collection<TaskGenerator> generators) {
-        // ...
+    public GroupTaskGenerator(Collection<TaskGenerator> generators) {
+        allGenerators.addAll(generators);
+        for (TaskGenerator generator : generators) {
+            Task x = generator.generate();
+            // TODO catch
+            allGenerators.add(generator);
+        }
     }
 
-    /**
-     * @return результат метода generate() случайного генератора из списка.
-     *         Если этот генератор выбросил исключение в методе generate(), выбирается другой.
-     *         Если все генераторы выбрасывают исключение, то и тут выбрасывается исключение.
-     */
+    // TODO throw
     public Task generate() {
-        // ...
-        return null;
+        if (allGenerators.isEmpty()) {
+            // TODO throw
+        }
+        int pos = rnd.nextInt(0, allGenerators.size());
+        return allGenerators.get(pos).generate();
     }
 }
