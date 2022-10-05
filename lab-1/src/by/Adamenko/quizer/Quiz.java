@@ -1,6 +1,7 @@
 package by.Adamenko.quizer;
 
 import by.Adamenko.quizer.task_generators.EquationTaskGenerator;
+import by.Adamenko.quizer.task_generators.ExpressionTaskGenerator;
 import by.Adamenko.quizer.task_generators.TaskGenerator;
 import by.Adamenko.quizer.tasks.Task;
 
@@ -26,6 +27,8 @@ class Quiz {
         Map<String, Quiz> tests = new HashMap<String, Quiz>();
         tests.put("EqTaskOnlyPlus", new Quiz(new EquationTaskGenerator(0, 10, true, false, false, false), 5));
         tests.put("EqTaskAll", new Quiz(new EquationTaskGenerator(-10, 10, true, true, true, true), 5));
+        tests.put("ExprTaskOnlyPlus", new Quiz(new ExpressionTaskGenerator(0, 10, true, false, false, false), 5));
+        tests.put("ExprTaskAll", new Quiz(new ExpressionTaskGenerator(-10, 10, true, true, true, true), 5));
         return tests;
     }
     Task nextTask() {
